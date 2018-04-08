@@ -1,0 +1,13 @@
+%%-*- mode: erlang -*-
+
+{application, simple_schema, [
+    {description, "Simple Json Schema Validation"},
+    {vsn, git},
+    {applications, [kernel,
+                    stdlib,
+
+                    jsn
+                   ]}
+ ]}.
+
+% vim:ft=erlang
