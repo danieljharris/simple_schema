@@ -30,7 +30,7 @@ Very simple json schema validation
                         {<<"default_allowed">>, <<"a">>,             [<<"a">>, <<"b">>]}
                         ]).
 ```
-
+# How to use:
+ValidatedJson = simple_schema:filter_params(?TESTING_ABCDE, JsonInput).
 
 <!--- vim: sw=4 et ts=4 -->
-# simple_schema
