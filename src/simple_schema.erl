@@ -13,9 +13,7 @@
 -spec filter_params(Schema :: [term()], Params :: [term()]) ->
     {error, Reason :: binary()} | {ok, [term()]}.
 
-filter_params(Schema, Params) ->
-    {ok, FilteredParams} = filter_params(Schema, Params, jsn:new()),
-    {ok, jsn:from_map(FilteredParams, [{format, eep18}])}.
+filter_params(Schema, Params) -> filter_params(Schema, Params, []).
 
 filter_params([], _Params, Acc) -> {ok, Acc};
 filter_params([{Field, DefaultOrRequired, Allowed = Schema} | Tail], Params, Acc) ->

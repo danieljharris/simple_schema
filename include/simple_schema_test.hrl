@@ -14,9 +14,9 @@
                         {<<"indent.true_allowed">>,    required,            [<<"a">>, <<"b">>]},
                         {<<"indent.false_allowed">>,   optional,            [<<"a">>, <<"b">>]},
                         {<<"indent.default">>,         <<"test_data_two">>, []},
-                        {<<"indent.default_allowed">>, <<"b">>,             [<<"a">>, <<"b">>]}
+                        {<<"indent.default_allowed">>, <<"b">>,             [<<"a">>, <<"b">>]},
 
-                        % {<<"list:">>,           required,                ?TESTING_LIST_}
+                        {<<"list:">>,           required,                ?TESTING_LIST_}
                         ]).
 
 %                      |         Field         |  Required/Default  | Allowed Values |

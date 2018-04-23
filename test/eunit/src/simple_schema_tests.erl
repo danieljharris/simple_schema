@@ -18,37 +18,36 @@ filter_test() ->
     InputParams = [{<<"true_empty">>, <<"random">>},
                    {<<"true_allowed">>, <<"a">>},
                    {<<"indent">>, [{<<"true_empty">>, <<"random">>},
-                                   {<<"true_allowed">>, <<"b">>}]}
-                   % {<<"list">>, [
-                   %               {
-                   %                [{<<"true_empty">>, <<"ddd">>},
-                   %                 {<<"true_allowed">>, <<"a">>}]
-                   %               }
-                   %              ]}
-
+                                   {<<"true_allowed">>, <<"b">>}]},
+                   {<<"list">>, [
+                                 {
+                                  [{<<"true_empty">>, <<"random">>},
+                                   {<<"true_allowed">>, <<"a">>}]
+                                 }
+                                ]}
                   ],
 
-    %% Correct version:
-    OutputParams = {[{<<"true_empty">>, <<"random">>},
-                     {<<"true_allowed">>, <<"a">>},
-                     {<<"indent">>, {[{<<"true_empty">>, <<"random">>},
-                                      {<<"true_allowed">>, <<"b">>},
-                                      {<<"default_allowed">>, <<"b">>},
-                                      {<<"default">>, <<"test_data_two">>}]}},
-                     {<<"default_allowed">>, <<"a">>},
-                     {<<"default">>, <<"test_data_one">>}
-                     % {<<"list">>, [
-                     %               {
-                     %                [{<<"true_empty">>, <<"random">>},
-                     %                 {<<"true_allowed">>, <<"a">>},
-                     %                 {<<"default_allowed">>, <<"a">>},
-                     %                 {<<"default">>, <<"test_data_one">>}]
-                     %               }
-                     %              ]}
-
-                   ]},
+    OutputParams = [{<<"true_empty">>, <<"random">>},
+                    {<<"true_allowed">>, <<"a">>},
+                    {<<"default">>, <<"test_data_one">>},
+                    {<<"default_allowed">>, <<"a">>},
+                    {<<"indent">>, [{<<"true_empty">>, <<"random">>},
+                                    {<<"true_allowed">>, <<"b">>},
+                                    {<<"default">>, <<"test_data_two">>},
+                                    {<<"default_allowed">>, <<"b">>}]},
+                    {<<"list">>, [
+                                  {
+                                   [{<<"true_empty">>, <<"random">>},
+                                    {<<"true_allowed">>, <<"a">>},
+                                    {<<"default">>, <<"test_data_one">>},
+                                    {<<"default_allowed">>, <<"a">>}]
+                                  }
+                                 ]}
+                   ],
 
     Return = filter_params(?TESTING_ABCDE, InputParams),
+
+    ct:pal("I GOT THIS - Return: ~p", [Return]),
 
     ?assertMatch({ok, OutputParams}, Return).
 
