@@ -27,14 +27,14 @@ filter_test() ->
                                 ]}
                   ],
 
-    OutputParams = [{<<"true_empty">>, <<"random">>},
+    OutputParams = {[{<<"true_empty">>, <<"random">>},
                     {<<"true_allowed">>, <<"a">>},
                     {<<"default">>, <<"test_data_one">>},
                     {<<"default_allowed">>, <<"a">>},
-                    {<<"indent">>, [{<<"true_empty">>, <<"random">>},
+                    {<<"indent">>, {[{<<"true_empty">>, <<"random">>},
                                     {<<"true_allowed">>, <<"b">>},
                                     {<<"default">>, <<"test_data_two">>},
-                                    {<<"default_allowed">>, <<"b">>}]},
+                                    {<<"default_allowed">>, <<"b">>}]}},
                     {<<"list">>, [
                                   {
                                    [{<<"true_empty">>, <<"random">>},
@@ -43,7 +43,7 @@ filter_test() ->
                                     {<<"default_allowed">>, <<"a">>}]
                                   }
                                  ]}
-                   ],
+                   ]},
 
     Return = filter_params(?TESTING_ABCDE, InputParams),
 

@@ -13,7 +13,9 @@
 -spec filter_params(Schema :: [term()], Params :: [term()]) ->
     {error, Reason :: binary()} | {ok, [term()]}.
 
-filter_params(Schema, Params) -> filter_params(Schema, Params, []).
+filter_params(Schema, Params) ->
+    {ok, FilteredParams} = filter_params(Schema, Params, []),
+    {ok, jsn:from_proplist(FilteredParams, [{format, eep18}])}.
 
 filter_params([], _Params, Acc) -> {ok, Acc};
 filter_params([{Field, DefaultOrRequired, Allowed = Schema} | Tail], Params, Acc) ->
@@ -75,9 +77,9 @@ filter_param_list(Field0, DefaultOrRequired, Schema, Params) ->
 
 filter_list_params(_Schema, [], Acc) -> {ok, Acc};
 filter_list_params(Schema, [Params | Tail], Acc) ->
-    case filter_params(Schema, Params) of
+    case filter_params(Schema, Params, []) of
         {ok, FilteredParams} ->
-            filter_list_params(Schema, Tail, [{FilteredParams} | Acc]);
+            filter_list_params(Schema, Tail, [FilteredParams | Acc]);
         {error, _} = Error -> Error
     end.
 
