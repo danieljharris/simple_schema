@@ -47,8 +47,63 @@ filter_test() ->
 
     Return = filter_params(?TESTING_ABCDE, InputParams),
 
-    ct:pal("I GOT THIS - Return: ~p", [Return]),
+    ct:pal("Return: ~p", [Return]),
 
     ?assertMatch({ok, OutputParams}, Return).
+
+
+filter_error_test() ->
+    InputParams = [{<<"true_allowed">>, <<"a">>},
+                   {<<"indent">>, [{<<"true_empty">>, <<"random">>},
+                                   {<<"true_allowed">>, <<"b">>}]},
+                   {<<"list">>, [
+                                 {
+                                  [{<<"true_empty">>, <<"random">>},
+                                   {<<"true_allowed">>, <<"a">>}]
+                                 }
+                                ]}
+                  ],
+
+    Return = filter_params(?TESTING_ABCDE, InputParams),
+
+    ct:pal("Return: ~p", [Return]),
+
+    ?assertMatch({error,missing_true_empty}, Return).
+
+filter_error_indent_test() ->
+    InputParams = [{<<"true_empty">>, <<"random">>},
+                   {<<"true_allowed">>, <<"a">>},
+                   {<<"indent">>, [{<<"true_allowed">>, <<"b">>}]},
+                   {<<"list">>, [
+                                 {
+                                  [{<<"true_empty">>, <<"random">>},
+                                   {<<"true_allowed">>, <<"a">>}]
+                                 }
+                                ]}
+                  ],
+
+    Return = filter_params(?TESTING_ABCDE, InputParams),
+
+    ct:pal("Return: ~p", [Return]),
+
+    ?assertMatch({error,'missing_indent.true_empty'}, Return).
+
+filter_error_list_test() ->
+    InputParams = [{<<"true_empty">>, <<"random">>},
+                   {<<"true_allowed">>, <<"a">>},
+                   {<<"indent">>, [{<<"true_empty">>, <<"random">>},
+                                   {<<"true_allowed">>, <<"b">>}]},
+                   {<<"list">>, [
+                                 {
+                                  [{<<"true_allowed">>, <<"a">>}]
+                                 }
+                                ]}
+                  ],
+
+    Return = filter_params(?TESTING_ABCDE, InputParams),
+
+    ct:pal("Return: ~p", [Return]),
+
+    ?assertMatch({error,'missing_true_empty_in_list'}, Return).
 
 -endif.

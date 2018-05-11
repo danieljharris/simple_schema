@@ -11,11 +11,14 @@
 % TODO: Remove the use of Acc and just use tail recursion
 
 -spec filter_params(Schema :: [term()], Params :: [term()]) ->
-    {error, Reason :: binary()} | {ok, [term()]}.
+    {error, Reason :: atom()} | {ok, [term()]}.
 
 filter_params(Schema, Params) ->
-    {ok, FilteredParams} = filter_params(Schema, Params, []),
-    {ok, jsn:from_proplist(FilteredParams, [{format, eep18}])}.
+    case filter_params(Schema, Params, []) of
+        {ok, FilteredParams} ->
+            {ok, jsn:from_proplist(FilteredParams, [{format, eep18}])};
+        {error, _} = Error -> Error
+    end.
 
 filter_params([], _Params, Acc) -> {ok, Acc};
 filter_params([{Field, DefaultOrRequired, Allowed = Schema} | Tail], Params, Acc) ->
@@ -67,7 +70,7 @@ filter_param_list(Field0, DefaultOrRequired, Schema, Params) ->
             case filter_list_params(Schema, Value, []) of
                 {ok, ReturnList} -> {Field, ReturnList};
                 {error, Reason} ->
-                    BinaryReason = erlang:list_to_binary(Reason),
+                    BinaryReason = erlang:atom_to_binary(Reason, latin1),
                     {error, binary_to_atom(<<BinaryReason/binary, "_in_", Field/binary>>, utf8)}
             end;
         _Other ->
